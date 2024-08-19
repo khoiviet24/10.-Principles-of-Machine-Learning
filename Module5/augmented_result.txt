@@ -1,0 +1,15 @@
+Original text:
+'Is daily coffee consumption good for our health?  I guess it is reasonable to believe so, but it may also depend on how much you drink.'
+
+Random substitution using word embedding similarity:
+' .Is daily coffee foodstuffs good forr our health? too.I Actually enough.It is reasonal to believe so, but it must also depend on howt much you Drank. '
+
+Substitution by contextual word embedding:
+' will daily coffee consumption adverse on our health? i imagine it is reasonable to believe that, but it will be comment on how much people eat. '
+
+Substitution by WordNet's synonym:
+' Is everyday coffee consumption good for our health? I guess it is reasonable to believe thence, but it may also calculate on how much you drink. '
+
+Back Translation:
+"Is daily coffee consumption good for our health? I think it is reasonable to believe so, but it can also depend on how much you drink."
+
