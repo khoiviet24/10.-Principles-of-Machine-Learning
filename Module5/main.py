@@ -10,8 +10,8 @@ from nlpaug.util import Action
 from transformers.utils import logging
 logging.set_verbosity_error() 
 
+# Uncomment to download models 
 """
-# Download models to a temporary path
 from nlpaug.util.file.download import DownloadUtil
 DownloadUtil.download_word2vec(dest_dir = '.')
 # Possible values are ‘wiki-news-300d-1M’, ‘wiki-news-300d-1M-subword’, ‘crawl-300d-2M’ and ‘crawl-300d-2M-subword’
@@ -29,12 +29,15 @@ def random_embedding_similarity(input):
     # Options: "substitute", or "insert"
     action = "substitute")
 
-    # Augment the text
-    print()
-    print("Random substitution using word embedding similarity")
-    augmented_text = aug.augment(input)
-    print(augmented_text)
-    print()
+    # Peform random substitution using word embedding similarity
+    augmented_texts = aug.augment(input)
+
+    # Append result to output file
+    with open('augmented_result.txt', 'a') as output_file:
+        output_file.write('Random substitution using word embedding similarity:\n')
+        for augmented_text in augmented_texts:
+            output_file.write(augmented_text + '\n')
+        output_file.write('\n')
 
 def contextual_word_embedding(input):
     # Substitute word by contextual word embeddings (BERT, DistilBERT, RoBERTA or XLNet)
@@ -44,24 +47,30 @@ def contextual_word_embedding(input):
     # Options: "substitute", or "insert"
     action = "substitute")
 
-    print()
-    print("Substitution by contextual word embedding")
-    augmented_text = aug.augment(input)
-    print(augmented_text)
-    print()
+    # Perform subsitution by contextual word embedding
+    augmented_texts = aug.augment(input)
+
+    # Append result to output file
+    with open('augmented_result.txt', 'a') as output_file:
+        output_file.write('Substitution by contextual word embedding:\n')
+        for augmented_text in augmented_texts:
+            output_file.write(augmented_text + '\n')
+        output_file.write('\n')
 
 def wordnet_synonym(input):
     # Substitute word by WordNet's synonym.
     # Option: set the max number of words to replace with synonym.
     aug = naw.SynonymAug(aug_src = 'wordnet', aug_max = 3)
 
-    print()
-    print("Substitution by WordNet's synonym")
-    augmented_text = aug.augment(input, )
-    print("Augmented Text:")
-    print(augmented_text)
-    print()
+    # Perform WordNet's synonym substitution
+    augmented_texts = aug.augment(input, )
 
+    # Append result to output file
+    with open('augmented_result.txt', 'a') as output_file:
+        output_file.write('Substitution by WordNet\'s synonym:\n')
+        for augmented_text in augmented_texts:
+            output_file.write(augmented_text + '\n')
+        output_file.write('\n')
 
 def back_translation(input):
     # Use back translation augmenter
@@ -69,16 +78,37 @@ def back_translation(input):
         from_model_name='facebook/wmt19-en-de', 
         to_model_name='facebook/wmt19-de-en'
     )
-    print()
-    print('Back Translation')
-    print(back_translation_aug.augment(input))
-    print()
+
+    # Perform back translation
+    augmented_texts = back_translation_aug.augment(input)
+    
+    # Append result to output file
+    with open('augmented_result.txt', 'a') as output_file:
+        output_file.write('Back Translation:\n')
+        for augmented_text in augmented_texts:
+            output_file.write(augmented_text + '\n')
+        output_file.write('\n')
+
+def load_text_from_file(file_path):
+    # Read text from a file
+    with open(file_path, 'r') as file:
+        text = file.read()
+
+    return text
 
 def main():
-    text = ' Is daily coffee consumption good for our health?  I guess it is reasonable to believe so, but it may also depend on how much you drink.'
-    print('Original Text')
-    print(text)
-    print()
+    # Load text
+    file_path = 'text_dataset.txt'
+    text = load_text_from_file(file_path)
+
+    # Clear content of output file
+    with open('augmented_result.txt', 'w') as file:
+        file.write('')
+
+    # Append Original text
+    with open('augmented_result.txt', 'a') as output_file:
+        output_file.write('Original text:\n')
+        output_file.write(text + '\n\n')
 
     random_embedding_similarity(text)
     contextual_word_embedding(text)
